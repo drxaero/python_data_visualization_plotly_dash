@@ -249,10 +249,10 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
 
     resort_name = df["Resort"]
 
-    elev_rank = f"Elevation Rank: {int(df['country_elevation_rank'])}"
-    price_rank = f"Price Rank: {int(df['country_price_rank'])}"
-    slope_rank = f"Slope Rank: {int(df['country_slope_rank'])}"
-    cannon_rank = f"Cannon Rank: {int(df['country_cannon_rank'])}"
+    elev_rank = f"Elevation Rank: {int(df['country_elevation_rank'].iloc[0])}"
+    price_rank = f"Price Rank: {int(df['country_price_rank'].iloc[0])}"
+    slope_rank = f"Slope Rank: {int(df['country_slope_rank'].iloc[0])}"
+    cannon_rank = f"Cannon Rank: {int(df['country_cannon_rank'].iloc[0])}"
 
     return resort_name, elev_rank, price_rank, slope_rank, cannon_rank
 
