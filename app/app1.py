@@ -213,7 +213,7 @@ def snow_map(price: int, summer_ski: str, night_ski: str, snow_park: str) -> (st
 
 @app1.callback(Output(dcc_country_dropdown_id, "options"), Input(dcc_continent_dropdown_id, "value"))
 def country_select(continent: str) -> list[str]:
-    return np.sort(resorts.query("Continent == @continent")["Country"].unique())
+    return np.sort(resorts.query(f"Continent == '{continent}'")["Country"].unique())
 
 
 @app1.callback(
@@ -243,9 +243,9 @@ def plot_bar(country: str, metric: str) -> tuple[str, Figure]:
     Input(dcc_metric_bar_graph_id, "hoverData"),
 )
 def update_line(hoverData) -> tuple[str, str, str, str, str]:
-    # resort = hoverData["points"][0]["customdata"][0]
 
-    df = resorts.query("Resort == @resort")
+    resort = hoverData["points"][0]["customdata"][0]
+    df = resorts.query(f"Resort == '{resort}'")
 
     resort_name = df["Resort"]
 
