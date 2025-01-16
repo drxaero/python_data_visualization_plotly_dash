@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is Janus' final project of Udemy course [Python Data Visualization: Dashboards with Plotly & Dash](https://www.udemy.com/course-dashboard-redirect/?course_id=5157698).
+This is my final project of Udemy course [Python Data Visualization: Dashboards with Plotly & Dash](https://www.udemy.com/course-dashboard-redirect/?course_id=5157698).
 This repository demonstrates the docker deployment of a [Dash](https://dash.plotly.com/) dashboard.
 
 ## Usage
