@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.pylint",
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+    "ms-azuretools.vscode-docker",
+    "zeshuaro.vscode-python-poetry",
+    "ryanluker.vscode-coverage-gutters",
+    "davidsanders.search-under-cursor",
+    "streetsidesoftware.code-spell-checker",
+    "visbydev.folder-path-color",
+    "yzhang.markdown-all-in-one"
+  ]
+}
