@@ -5,7 +5,7 @@
 FROM python:3.13.0-slim
 
 # Update package list
-RUN apt-get update 
+RUN apt-get update
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip

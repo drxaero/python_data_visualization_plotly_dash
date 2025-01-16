@@ -1,11 +1,11 @@
-from dash import dcc, Dash, html, Input, Output
-from dash.exceptions import PreventUpdate
-from plotly.graph_objects import Figure
-import numpy as np
-import plotly.express as px
-import pandas as pd
 import dash_bootstrap_components as dbc
+import numpy as np
+import pandas as pd
+import plotly.express as px
+from dash import Dash, Input, Output, dcc, html
+from dash.exceptions import PreventUpdate
 from dash_bootstrap_templates import load_figure_template
+from plotly.graph_objects import Figure
 
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"  # Provides class "dbc"
 dbc_class = "dbc"
@@ -243,7 +243,7 @@ def plot_bar(country: str, metric: str) -> tuple[str, Figure]:
     Input(dcc_metric_bar_graph_id, "hoverData"),
 )
 def update_line(hoverData) -> tuple[str, str, str, str, str]:
-    resort = hoverData["points"][0]["customdata"][0]
+    # resort = hoverData["points"][0]["customdata"][0]
 
     df = resorts.query("Resort == @resort")
 

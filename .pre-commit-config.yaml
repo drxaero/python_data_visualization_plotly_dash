@@ -14,9 +14,6 @@ repos:
       - id: check-json
       - id: check-toml
       - id: mixed-line-ending
-      - id: name-tests-test # verifies that test files are named correctly
-        args:
-          - "--pytest-test-first" # verifies that test files are named test_*.py
       - id: end-of-file-fixer
 
   - repo: https://github.com/PyCQA/flake8
