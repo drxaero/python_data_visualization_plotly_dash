@@ -1,4 +1,4 @@
-# Docker Deployment of a `Dash` app
+# Docker Deployment of a `Dash` App
 
 ## Introduction
 
