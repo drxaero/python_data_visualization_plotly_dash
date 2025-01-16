@@ -257,7 +257,16 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
     return resort_name, elev_rank, price_rank, slope_rank, cannon_rank
 
 
+@app1.server.route("/ping")
+def ping():
+    """
+    To enable health check
+    """
+    data = {"status": "ok"}
+    return data, 200
+
+
 if __name__ == "__main__":
     app1.run_server(
         port=8080, debug=True
-    )  # 可以指定 `host="0.0.0.0"` 或 `port=8051` 或 `debug=True` 或 `height=800` 或 `width="80%"`
+    )  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
