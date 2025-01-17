@@ -2,14 +2,17 @@ import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
-from dash import Dash, Input, Output, dcc, html
+from dash import Dash, Input, Output, callback, clientside_callback, dcc, html
 from dash.exceptions import PreventUpdate
 from dash_bootstrap_templates import load_figure_template
 from plotly.graph_objects import Figure
 
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"  # Provides class "dbc"
 dbc_class = "dbc"
-dbc_style_template = "darkly"  # darkly, slate, cerulean, bootstrap
+
+# Pick other themes from "https://dash-bootstrap-components.opensource.faculty.ai/docs/themes/explorer/"
+dbc_light_theme = "lumen"
+dbc_dark_theme = "darkly"
 
 
 resorts = pd.read_csv("data/resorts.csv", encoding="ISO-8859-1").assign(
@@ -23,12 +26,14 @@ resorts = pd.read_csv("data/resorts.csv", encoding="ISO-8859-1").assign(
 app1 = Dash(
     __name__,
     external_stylesheets=[
-        getattr(dbc.themes, dbc_style_template.upper()),  # DARKLY, SLATE, CERULEAN
-        dbc_css,  # 這裡要參考到外部的 CSS
+        dbc_css,
+        getattr(dbc.themes, dbc_light_theme.upper()),
+        dbc.icons.BOOTSTRAP,
     ],
 )
 
-load_figure_template(dbc_style_template)
+load_figure_template([dbc_dark_theme, dbc_light_theme])
+
 
 html_map_title_id = "html-map-title"
 dcc_price_slider_id = "dcc-price-slider"
@@ -48,137 +53,159 @@ dbc_price_kpi_card_id = "dbc-price-kpi-card"
 dbc_slope_kpi_card_id = "dbc-slope-kpi-card"
 dbc_cannon_kpi_card_id = "dbc-cannon-kpi-card"
 
+color_mode_switch_id = "color-mode-switch"
+
+color_mode_switch = html.Span(
+    [
+        dbc.Label(className="bi bi-moon", html_for=color_mode_switch_id),
+        dbc.Switch(id=color_mode_switch_id, value=False, className="d-inline-block ms-1", persistence=True),
+        dbc.Label(className="bi bi-sun", html_for=color_mode_switch_id),
+    ]
+)
+
 app1.layout = dbc.Container(
-    dcc.Tabs(
-        className=dbc_class,
-        children=[
-            dbc.Tab(
-                label="Resort Map",
-                children=[
-                    html.H1(id=html_map_title_id, style={"text-align": "center"}),
-                    dbc.Row(
-                        [
-                            dbc.Col(
-                                [
-                                    dbc.Card(
-                                        [
-                                            dcc.Markdown("**Price Limit**"),
-                                            dcc.Slider(
-                                                id=dcc_price_slider_id,
-                                                min=0,
-                                                max=150,
-                                                step=25,
-                                                value=150,
-                                                className=dbc_class,
-                                            ),
-                                            html.Br(),
-                                            dcc.Markdown("**Feature Preferences**"),
-                                            dcc.Checklist(
-                                                id=dcc_summer_ski_checklist_id,
-                                                options=[{"label": "Has Summer Skiing", "value": "Yes"}],
-                                                value=[],
-                                            ),
-                                            dcc.Checklist(
-                                                id=dcc_night_ski_checklist_id,
-                                                options=[{"label": "Has Night Skiing", "value": "Yes"}],
-                                                value=[],
-                                            ),
-                                            dcc.Checklist(
-                                                id=dcc_snow_park_checklist_id,
-                                                options=[{"label": "Has Snow Park", "value": "Yes"}],
-                                                value=[],
-                                            ),
-                                        ]
-                                    ),
-                                ],
-                                width=3,
-                            ),
-                            dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], width=9),
-                        ]
-                    ),
-                ],
-            ),
-            dbc.Tab(
-                label="Country Profiler",
-                children=[
-                    html.H1(id=html_country_title_id, style={"text-align": "center"}),
-                    dbc.Row(
-                        [
-                            dbc.Col(
-                                [
-                                    dcc.Markdown("Select A Continent:"),
-                                    dcc.Dropdown(
-                                        id=dcc_continent_dropdown_id,
-                                        options=resorts["Continent"].unique(),
-                                        value="Europe",
-                                        className=dbc_class,
-                                    ),
-                                    html.Br(),
-                                    dcc.Markdown("Select A Country:"),
-                                    dcc.Dropdown(id=dcc_country_dropdown_id, value="Norway", className=dbc_class),
-                                    html.Br(),
-                                    dcc.Markdown("Select A Metric to Plot:"),
-                                    dcc.Dropdown(
-                                        id=dcc_col_picker_dropdown_id,
-                                        options=resorts.select_dtypes("number").columns[3:],
-                                        value="Price",
-                                        className=dbc_class,
-                                    ),
-                                ],
-                                width=3,
-                            ),
-                            dbc.Col(
-                                [
-                                    dcc.Graph(
-                                        id=dcc_metric_bar_graph_id, hoverData={"points": [{"customdata": ["Hemsedal"]}]}
-                                    ),
-                                ],
-                                width=6,
-                            ),
-                            dbc.Col(
-                                [
-                                    dcc.Markdown("### Resort Report Card"),
-                                    dbc.Card(
-                                        id=dbc_resort_name_card_id, style={"text-align": "center", "fontSize": 20}
-                                    ),
-                                    dbc.Row(
-                                        [
-                                            dbc.Col(
-                                                [
-                                                    dbc.Card(id=dbc_elevation_kpi_card_id),
-                                                    dbc.Card(id=dbc_price_kpi_card_id),
-                                                ]
-                                            ),
-                                            dbc.Col(
-                                                [
-                                                    dbc.Card(id=dbc_slope_kpi_card_id),
-                                                    dbc.Card(id=dbc_cannon_kpi_card_id),
-                                                ]
-                                            ),
-                                        ]
-                                    ),
-                                ],
-                                width=3,
-                            ),
-                        ]
-                    ),
-                ],
-            ),
-        ],
-    ),
+    children=[
+        html.Div(
+            color_mode_switch,
+            style={"text-align": "right"},
+        ),
+        dcc.Tabs(
+            className=dbc_class,
+            children=[
+                dbc.Tab(
+                    label="Resort Map",
+                    children=[
+                        html.H1(id=html_map_title_id, style={"text-align": "center"}),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dbc.Card(
+                                            [
+                                                dcc.Markdown("**Price Limit**"),
+                                                dcc.Slider(
+                                                    id=dcc_price_slider_id,
+                                                    min=0,
+                                                    max=150,
+                                                    step=25,
+                                                    value=150,
+                                                    className=dbc_class,
+                                                ),
+                                                html.Br(),
+                                                dcc.Markdown("**Feature Preferences**"),
+                                                dcc.Checklist(
+                                                    id=dcc_summer_ski_checklist_id,
+                                                    options=[{"label": "Has Summer Skiing", "value": "Yes"}],
+                                                    value=[],
+                                                ),
+                                                dcc.Checklist(
+                                                    id=dcc_night_ski_checklist_id,
+                                                    options=[{"label": "Has Night Skiing", "value": "Yes"}],
+                                                    value=[],
+                                                ),
+                                                dcc.Checklist(
+                                                    id=dcc_snow_park_checklist_id,
+                                                    options=[{"label": "Has Snow Park", "value": "Yes"}],
+                                                    value=[],
+                                                ),
+                                            ]
+                                        ),
+                                    ],
+                                    width=3,
+                                ),
+                                dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], width=9),
+                            ]
+                        ),
+                    ],
+                ),
+                dbc.Tab(
+                    label="Country Profiler",
+                    children=[
+                        html.H1(id=html_country_title_id, style={"text-align": "center"}),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Markdown("Select A Continent:"),
+                                        dcc.Dropdown(
+                                            id=dcc_continent_dropdown_id,
+                                            options=resorts["Continent"].unique(),
+                                            value="Europe",
+                                            className=dbc_class,
+                                        ),
+                                        html.Br(),
+                                        dcc.Markdown("Select A Country:"),
+                                        dcc.Dropdown(
+                                            id=dcc_country_dropdown_id,
+                                            value="Norway",
+                                            className=dbc_class,
+                                        ),
+                                        html.Br(),
+                                        dcc.Markdown("Select A Metric to Plot:"),
+                                        dcc.Dropdown(
+                                            id=dcc_col_picker_dropdown_id,
+                                            options=resorts.select_dtypes("number").columns[3:],
+                                            value="Price",
+                                            className=dbc_class,
+                                        ),
+                                    ],
+                                    width=3,
+                                ),
+                                dbc.Col(
+                                    [
+                                        dcc.Graph(
+                                            id=dcc_metric_bar_graph_id,
+                                            hoverData={"points": [{"customdata": ["Hemsedal"]}]},
+                                        ),
+                                    ],
+                                    width=6,
+                                ),
+                                dbc.Col(
+                                    [
+                                        dcc.Markdown("### Resort Report Card"),
+                                        dbc.Card(
+                                            id=dbc_resort_name_card_id, style={"text-align": "center", "fontSize": 20}
+                                        ),
+                                        dbc.Row(
+                                            [
+                                                dbc.Col(
+                                                    [
+                                                        dbc.Card(id=dbc_elevation_kpi_card_id),
+                                                        dbc.Card(id=dbc_price_kpi_card_id),
+                                                    ]
+                                                ),
+                                                dbc.Col(
+                                                    [
+                                                        dbc.Card(id=dbc_slope_kpi_card_id),
+                                                        dbc.Card(id=dbc_cannon_kpi_card_id),
+                                                    ]
+                                                ),
+                                            ]
+                                        ),
+                                    ],
+                                    width=3,
+                                ),
+                            ]
+                        ),
+                    ],
+                ),
+            ],
+        ),
+    ],
     style={"width": 1300},
 )
 
 
-@app1.callback(
+@callback(
     Output(html_map_title_id, "children"),
     Output(dcc_resort_map_graph_id, "figure"),
+    Input(color_mode_switch_id, "value"),
     Input(dcc_price_slider_id, "value"),
     Input(dcc_summer_ski_checklist_id, "value"),
     Input(dcc_night_ski_checklist_id, "value"),
     Input(dcc_snow_park_checklist_id, "value"),
 )
-def snow_map(price: int, summer_ski: str, night_ski: str, snow_park: str) -> (str, Figure):
+def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> (str, Figure):
     if not price:
         raise PreventUpdate
 
@@ -207,34 +234,42 @@ def snow_map(price: int, summer_ski: str, night_ski: str, snow_park: str) -> (st
         color_continuous_scale="blues",
         width=800,
         height=600,
+        template=get_template(switch_on),
     )
     return title, fig
 
 
-@app1.callback(Output(dcc_country_dropdown_id, "options"), Input(dcc_continent_dropdown_id, "value"))
+@callback(Output(dcc_country_dropdown_id, "options"), Input(dcc_continent_dropdown_id, "value"))
 def country_select(continent: str) -> list[str]:
     return np.sort(resorts.query(f"Continent == '{continent}'")["Country"].unique())
 
 
-@app1.callback(
+@callback(
     Output(html_country_title_id, "children"),
     Output(dcc_metric_bar_graph_id, "figure"),
+    Input(color_mode_switch_id, "value"),
     Input(dcc_country_dropdown_id, "value"),
     Input(dcc_col_picker_dropdown_id, "value"),
 )
-def plot_bar(country: str, metric: str) -> tuple[str, Figure]:
+def plot_bar(switch_on: bool, country: str, metric: str) -> tuple[str, Figure]:
     if not country and metric:
         raise PreventUpdate
 
     title = f"Top Resort Metrics in {country} by {metric}"
 
     df = resorts.query("Country == @country").sort_values(metric, ascending=False)
-    fig = px.bar(df, x="Resort", y=metric, custom_data=["Resort"]).update_xaxes(showticklabels=False)
+    fig = px.bar(df, x="Resort", y=metric, custom_data=["Resort"], template=get_template(switch_on)).update_xaxes(
+        showticklabels=False
+    )
 
     return title, fig
 
 
-@app1.callback(
+def get_template(switch_on: bool) -> str:
+    return dbc_light_theme if switch_on else dbc_dark_theme
+
+
+@callback(
     Output(dbc_resort_name_card_id, "children"),
     Output(dbc_elevation_kpi_card_id, "children"),
     Output(dbc_price_kpi_card_id, "children"),
@@ -257,6 +292,18 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
     return resort_name, elev_rank, price_rank, slope_rank, cannon_rank
 
 
+clientside_callback(
+    """
+    (switchOn) => {
+       document.documentElement.setAttribute('data-bs-theme', switchOn ? 'light' : 'dark');
+       return window.dash_clientside.no_update
+    }
+    """,
+    Output(color_mode_switch_id, "id"),
+    Input(color_mode_switch_id, "value"),
+)
+
+
 @app1.server.route("/ping")
 def ping():
     """
@@ -267,6 +314,4 @@ def ping():
 
 
 if __name__ == "__main__":
-    app1.run_server(
-        port=8080, debug=True
-    )  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
+    app1.run_server(debug=True)  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
