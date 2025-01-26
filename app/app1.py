@@ -31,6 +31,7 @@ app1 = Dash(
         dbc.icons.BOOTSTRAP,
     ],
 )
+app1.title = "Interactive Dashboard Demo"
 
 load_figure_template([dbc_dark_theme, dbc_light_theme])
 
