@@ -58,11 +58,11 @@ nav_bar_id = "nav-bar"
 color_mode_switch_id = "color-mode-switch"
 
 color_mode_switch = html.Span(
-    [
-        dbc.Label(class_name="bi bi-moon", html_for=color_mode_switch_id),
+    children=[
+        dbc.Label(class_name="bi bi-moon mb-0", html_for=color_mode_switch_id),
         dbc.Switch(id=color_mode_switch_id, value=False, class_name="d-inline-block ms-1", persistence=True),
-        dbc.Label(class_name="bi bi-sun", html_for=color_mode_switch_id),
-    ]
+        dbc.Label(class_name="bi bi-sun mb-0", html_for=color_mode_switch_id),
+    ],
 )
 
 app1.layout = dbc.Container(
@@ -71,8 +71,10 @@ app1.layout = dbc.Container(
             dbc.Container(
                 children=[
                     dbc.Col(dbc.NavbarBrand("Janus", href="/")),
-                    dbc.Col(color_mode_switch, width="auto"),  # setting width="auto" to align right
-                ]
+                    dbc.Col(
+                        color_mode_switch, width={"size": "auto", "order": "last"}
+                    ),  # setting `width={"size": "auto"}` to align right
+                ],
             ),
             id=nav_bar_id,
             sticky="top",
@@ -217,7 +219,7 @@ app1.layout = dbc.Container(
     Input(dcc_night_ski_checklist_id, "value"),
     Input(dcc_snow_park_checklist_id, "value"),
 )
-def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> (str, Figure):
+def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> tuple[str, Figure]:
     if not price:
         raise PreventUpdate
 
