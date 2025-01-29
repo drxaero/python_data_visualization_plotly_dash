@@ -239,7 +239,7 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
     if "Yes" in snow_park:
         df = df.loc[(df["Snowparks"] == "Yes")]
 
-    fig = px.density_mapbox(
+    fig = px.density_map(
         df,
         lat="Latitude",
         lon="Longitude",
@@ -248,7 +248,7 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
         center={"lat": 45, "lon": -100},
         zoom=2.5,
         height=600,
-        mapbox_style="open-street-map",
+        map_style="open-street-map",
         color_continuous_scale="blues",
         template=get_template(switch_on),
     )
