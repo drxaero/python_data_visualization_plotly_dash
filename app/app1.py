@@ -86,7 +86,7 @@ app1.layout = dbc.Container(
                     dbc.Tab(
                         label="Resort Map",
                         children=[
-                            html.H1(id=html_map_title_id, style={"text-align": "center"}),
+                            html.H1(id=html_map_title_id, style={"texAlign": "center"}),
                             dbc.Row(
                                 [
                                     dbc.Col(
@@ -133,7 +133,7 @@ app1.layout = dbc.Container(
                     dbc.Tab(
                         label="Country Profiler",
                         children=[
-                            html.H1(id=html_country_title_id, style={"text-align": "center"}),
+                            html.H1(id=html_country_title_id, style={"textAlign": "center"}),
                             dbc.Row(
                                 [
                                     dbc.Col(
@@ -179,7 +179,7 @@ app1.layout = dbc.Container(
                                             html.Div("Resort Report Card"),
                                             dbc.Card(
                                                 id=dbc_resort_name_card_id,
-                                                style={"text-align": "center", "fontSize": 20},
+                                                style={"texAlign": "center", "fontSize": 20},
                                             ),
                                             dbc.Row(
                                                 [
