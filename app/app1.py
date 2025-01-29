@@ -251,7 +251,7 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
         map_style="open-street-map",
         color_continuous_scale="blues",
         template=get_template(switch_on),
-    )
+    ).update_layout(margin_t=40, margin_r=40, margin_b=40, margin_l=40)
 
     color = "light" if switch_on else "dark"
 
@@ -277,8 +277,10 @@ def plot_bar(switch_on: bool, country: str, metric: str) -> tuple[str, Figure]:
     title = f"Top Resort Metrics in {country} by {metric}"
 
     df = resorts.query("Country == @country").sort_values(metric, ascending=False)
-    fig = px.bar(df, x="Resort", y=metric, custom_data=["Resort"], template=get_template(switch_on)).update_xaxes(
-        showticklabels=False
+    fig = (
+        px.bar(df, x="Resort", y=metric, custom_data=["Resort"], template=get_template(switch_on))
+        .update_xaxes(showticklabels=False)
+        .update_layout(margin_t=60, margin_r=60, margin_b=60, margin_l=60)
     )
 
     return title, fig
