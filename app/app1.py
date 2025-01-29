@@ -86,7 +86,7 @@ app1.layout = dbc.Container(
                     dbc.Tab(
                         label="Resort Map",
                         children=[
-                            html.H1(id=html_map_title_id, style={"texAlign": "center"}),
+                            html.H1(id=html_map_title_id, style={"textAlign": "center"}),
                             dbc.Row(
                                 [
                                     dbc.Col(
