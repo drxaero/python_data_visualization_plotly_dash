@@ -93,7 +93,7 @@ app1.layout = dbc.Container(
                                         [
                                             dbc.Card(
                                                 [
-                                                    dcc.Markdown("**Price Limit**"),
+                                                    html.Div("Price Limit"),
                                                     dcc.Slider(
                                                         id=dcc_price_slider_id,
                                                         min=0,
@@ -102,8 +102,8 @@ app1.layout = dbc.Container(
                                                         value=150,
                                                         className=dbc_class,
                                                     ),
-                                                    html.Br(),
-                                                    dcc.Markdown("**Feature Preferences**"),
+                                                    html.Hr(),
+                                                    html.Div("Feature Preferences"),
                                                     dcc.Checklist(
                                                         id=dcc_summer_ski_checklist_id,
                                                         options=[{"label": "Has Summer Skiing", "value": "Yes"}],
@@ -122,9 +122,10 @@ app1.layout = dbc.Container(
                                                 ]
                                             ),
                                         ],
-                                        width=3,
+                                        md=3,
+                                        class_name="mb-5",
                                     ),
-                                    dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], width=9),
+                                    dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], md=9, class_name="mb-5"),
                                 ]
                             ),
                         ],
@@ -137,22 +138,22 @@ app1.layout = dbc.Container(
                                 [
                                     dbc.Col(
                                         [
-                                            dcc.Markdown("Select A Continent:"),
+                                            html.Div("Select A Continent:"),
                                             dcc.Dropdown(
                                                 id=dcc_continent_dropdown_id,
                                                 options=resorts["Continent"].unique(),
                                                 value="Europe",
                                                 className=dbc_class,
                                             ),
-                                            html.Br(),
-                                            dcc.Markdown("Select A Country:"),
+                                            html.Hr(),
+                                            html.Div("Select A Country:"),
                                             dcc.Dropdown(
                                                 id=dcc_country_dropdown_id,
                                                 value="Norway",
                                                 className=dbc_class,
                                             ),
-                                            html.Br(),
-                                            dcc.Markdown("Select A Metric to Plot:"),
+                                            html.Hr(),
+                                            html.Div("Select A Metric to Plot:"),
                                             dcc.Dropdown(
                                                 id=dcc_col_picker_dropdown_id,
                                                 options=resorts.select_dtypes("number").columns[3:],
@@ -160,7 +161,8 @@ app1.layout = dbc.Container(
                                                 className=dbc_class,
                                             ),
                                         ],
-                                        width=3,
+                                        md=3,
+                                        class_name="mb-5",
                                     ),
                                     dbc.Col(
                                         [
@@ -169,11 +171,12 @@ app1.layout = dbc.Container(
                                                 hoverData={"points": [{"customdata": ["Hemsedal"]}]},
                                             ),
                                         ],
-                                        width=6,
+                                        md=6,
+                                        class_name="mb-5",
                                     ),
                                     dbc.Col(
                                         [
-                                            dcc.Markdown("### Resort Report Card"),
+                                            html.Div("Resort Report Card"),
                                             dbc.Card(
                                                 id=dbc_resort_name_card_id,
                                                 style={"text-align": "center", "fontSize": 20},
@@ -195,9 +198,10 @@ app1.layout = dbc.Container(
                                                 ]
                                             ),
                                         ],
-                                        width=3,
+                                        md=3,
+                                        class_name="mb-5",
                                     ),
-                                ]
+                                ],
                             ),
                         ],
                     ),
@@ -205,7 +209,6 @@ app1.layout = dbc.Container(
             ),
         ),
     ],
-    style={"width": 1300},
 )
 
 
@@ -244,10 +247,9 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
         hover_name="Resort",
         center={"lat": 45, "lon": -100},
         zoom=2.5,
+        height=600,
         mapbox_style="open-street-map",
         color_continuous_scale="blues",
-        width=800,
-        height=600,
         template=get_template(switch_on),
     )
 
