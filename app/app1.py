@@ -139,10 +139,10 @@ app1.layout = dbc.Container(
                                                 ]
                                             ),
                                         ],
-                                        md=3,
+                                        lg=3,
                                         class_name="mb-5",
                                     ),
-                                    dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], md=9, class_name="mb-5"),
+                                    dbc.Col([dcc.Graph(id=dcc_resort_map_graph_id)], lg=9, class_name="mb-5"),
                                 ]
                             ),
                         ],
