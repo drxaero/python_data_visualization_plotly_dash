@@ -268,6 +268,7 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
         map_style="open-street-map",
         color_continuous_scale="blues",
         template=get_template(switch_on),
+        opacity=0.8,
     ).update_layout(margin_t=40, margin_r=40, margin_b=40, margin_l=40)
 
     color = "light" if switch_on else "dark"
