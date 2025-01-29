@@ -2,7 +2,7 @@ import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
-from dash import Dash, Input, Output, callback, clientside_callback, dcc, html
+from dash import Dash, Input, Output, State, callback, clientside_callback, dcc, html
 from dash.exceptions import PreventUpdate
 from dash_bootstrap_templates import load_figure_template
 from plotly.graph_objects import Figure
@@ -55,6 +55,8 @@ dbc_slope_kpi_card_id = "dbc-slope-kpi-card"
 dbc_cannon_kpi_card_id = "dbc-cannon-kpi-card"
 
 nav_bar_id = "nav-bar"
+nav_bar_toggler_id = "nav-bar-toggler"
+nav_bar_collapse_id = "nav-bar-collapse"
 color_mode_switch_id = "color-mode-switch"
 
 color_mode_switch = html.Span(
@@ -65,21 +67,36 @@ color_mode_switch = html.Span(
     ],
 )
 
+nav_bar = dbc.Navbar(
+    dbc.Container(
+        children=[
+            dbc.NavbarBrand("Janus", href="https://drxaero.github.io/"),
+            dbc.NavbarToggler(id=nav_bar_toggler_id, n_clicks=0),
+            dbc.Collapse(
+                children=[
+                    dbc.Nav(
+                        children=[
+                            dbc.NavItem(dbc.NavLink("CV", href="https://www.linkedin.com/in/januscheng/")),
+                        ],
+                        navbar=True,
+                        class_name="me-auto",
+                    ),
+                    color_mode_switch,
+                ],
+                id=nav_bar_collapse_id,
+                navbar=True,
+            ),
+        ],
+    ),
+    id=nav_bar_id,
+    sticky="top",
+    class_name="navbar-expand mb-1",
+)
+
+
 app1.layout = dbc.Container(
     children=[
-        dbc.Navbar(
-            dbc.Container(
-                children=[
-                    dbc.Col(dbc.NavbarBrand("Janus", href="/")),
-                    dbc.Col(
-                        color_mode_switch, width={"size": "auto", "order": "last"}
-                    ),  # setting `width={"size": "auto"}` to align right
-                ],
-            ),
-            id=nav_bar_id,
-            sticky="top",
-            class_name="mb-1",
-        ),
+        nav_bar,
         dbc.Row(
             dbc.Tabs(
                 children=[
@@ -311,6 +328,17 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
     cannon_rank = f"Cannon Rank: {int(df['country_cannon_rank'].iloc[0])}"
 
     return resort_name, elev_rank, price_rank, slope_rank, cannon_rank
+
+
+@callback(
+    Output(nav_bar_collapse_id, "is_open"),
+    [Input(nav_bar_toggler_id, "n_clicks")],
+    [State(nav_bar_collapse_id, "is_open")],
+)
+def toggle_navbar_collapse(n: int, is_open: bool) -> bool:
+    if n:
+        return not is_open
+    return is_open
 
 
 clientside_callback(
