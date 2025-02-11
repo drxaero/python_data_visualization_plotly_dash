@@ -1,11 +1,7 @@
 # Build image: `docker build -t py_dash:1.0 .`
 # Run container: `docker run -it -p 8091:8091 --name py_dash_app py_dash:1.0`
 
-# If you can successfully install `opencv-python` on python:3.13.0-alpine, you can use it here:
-FROM python:3.13.0-slim
-
-# Update package list
-RUN apt-get update
+FROM python:3.13.0-alpine
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
