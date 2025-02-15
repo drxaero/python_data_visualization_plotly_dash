@@ -76,7 +76,13 @@ nav_bar = dbc.Navbar(
                 children=[
                     dbc.Nav(
                         children=[
-                            dbc.NavItem(dbc.NavLink("CV", href="https://www.linkedin.com/in/januscheng/")),
+                            dbc.NavItem(
+                                dbc.NavLink(
+                                    "CV",
+                                    href="https://www.linkedin.com/in/januscheng/",
+                                    external_link=True,
+                                )
+                            ),
                         ],
                         navbar=True,
                         class_name="me-auto",
@@ -87,10 +93,11 @@ nav_bar = dbc.Navbar(
                 navbar=True,
             ),
         ],
+        fluid=True,
     ),
     id=nav_bar_id,
     sticky="top",
-    class_name="navbar-expand mb-1",
+    class_name="navbar-expand mb-1 py-0",
 )
 
 
@@ -224,9 +231,11 @@ app1.layout = dbc.Container(
                     ),
                 ],
             ),
+            class_name="px-3",
         ),
     ],
     fluid=True,
+    class_name="gx-0",  # ensuring no paddings at both start and end of nav-bar
 )
 
 
