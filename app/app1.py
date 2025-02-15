@@ -226,6 +226,7 @@ app1.layout = dbc.Container(
             ),
         ),
     ],
+    fluid=True,
 )
 
 
