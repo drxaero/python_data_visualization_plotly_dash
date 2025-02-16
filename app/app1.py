@@ -231,7 +231,7 @@ app1.layout = dbc.Container(
                     ),
                 ],
             ),
-            class_name="px-3 me-0",  # you can remove "me-0" if you don't see the horizontal scroll bar
+            class_name="px-3 gx-0",  # you can remove "gx-0" if you don't see the horizontal scroll bar
         ),
     ],
     fluid=True,
