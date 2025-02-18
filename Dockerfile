@@ -20,4 +20,4 @@ COPY app/ .
 # Expose port 8091
 EXPOSE 8091/tcp
 
-CMD ["python", "start-app.py"]
+CMD ["./start-app"]

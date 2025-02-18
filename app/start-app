@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from app1 import app1
 
 if __name__ == "__main__":
