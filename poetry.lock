@@ -244,14 +244,14 @@ testing = ["beautifulsoup4 (>=4.8.2)", "cryptography", "dash-testing-stub (>=0.0
 
 [[package]]
 name = "dash-bootstrap-components"
-version = "2.0.0"
+version = "2.0.1"
 description = "Bootstrap themed components for use in Plotly Dash"
 optional = false
-python-versions = "<4,>=3.9"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "dash_bootstrap_components-2.0.0-py3-none-any.whl", hash = "sha256:5ac012321477b6d409c4ece0a9b6a0fb61dd46e06ba6763abdbd22557a16f480"},
-    {file = "dash_bootstrap_components-2.0.0.tar.gz", hash = "sha256:711230a35eb86664b5c0552a91d159f4b473d8412cf5b48f345fbb0118eadf91"},
+    {file = "dash_bootstrap_components-2.0.1-py3-none-any.whl", hash = "sha256:e598fc47f8fb1622eec5b06ccbfec3be9a0ed8ee4405c35bcf3c2c54b74f80c5"},
+    {file = "dash_bootstrap_components-2.0.1.tar.gz", hash = "sha256:3cc6586f37cb3fcc04bc72d3801c07b792040066a2cc78d2330885529265ec28"},
 ]
 
 [package.dependencies]
