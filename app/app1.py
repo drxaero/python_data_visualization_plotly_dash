@@ -98,6 +98,7 @@ nav_bar = dbc.Navbar(
     id=nav_bar_id,
     sticky="top",
     class_name="navbar-expand mb-1 py-0",
+    dark=False,
 )
 
 
