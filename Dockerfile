@@ -1,7 +1,7 @@
 # Build image: `docker build -t py_dash:1.0 .`
 # Run container: `docker run -it -p 8091:8091 --name py_dash_app py_dash:1.0`
 
-FROM python:3.13.0-alpine
+FROM python:3.13.3-alpine
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
