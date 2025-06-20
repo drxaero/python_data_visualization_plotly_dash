@@ -387,8 +387,6 @@ def ping():
     """
     To enable health check
     """
-    logger.info("Ping received")
-
     data = {"status": "ok"}
     return data, 200
 
