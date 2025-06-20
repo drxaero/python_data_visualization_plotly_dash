@@ -1,4 +1,5 @@
 import dash_bootstrap_components as dbc
+import logging
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -6,6 +7,8 @@ from dash import Dash, Input, Output, State, callback, clientside_callback, dcc,
 from dash.exceptions import PreventUpdate
 from dash_bootstrap_templates import load_figure_template
 from plotly.graph_objects import Figure
+
+logger = logging.getLogger(__name__)
 
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"  # Provides class "dbc"
 dbc_class = "dbc"
@@ -251,6 +254,15 @@ app1.layout = dbc.Container(
     Input(dcc_snow_park_checklist_id, "value"),
 )
 def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> tuple[str, Figure]:
+    logger.debug(
+        "Snow Map Callback Triggered with Inputs: %s, %s, %s, %s, %s",
+        switch_on,
+        price,
+        summer_ski,
+        night_ski,
+        snow_park,
+    )
+
     if not price:
         raise PreventUpdate
 
@@ -289,6 +301,8 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
 
 @callback(Output(dcc_country_dropdown_id, "options"), Input(dcc_continent_dropdown_id, "value"))
 def country_select(continent: str) -> list[str]:
+    logger.debug("Country Select Callback Triggered with Continent: %s", continent)
+
     return np.sort(resorts.query(f"Continent == '{continent}'")["Country"].unique())
 
 
@@ -300,6 +314,8 @@ def country_select(continent: str) -> list[str]:
     Input(dcc_col_picker_dropdown_id, "value"),
 )
 def plot_bar(switch_on: bool, country: str, metric: str) -> tuple[str, Figure]:
+    logger.debug("Plot Bar Callback Triggered with Inputs: %s, %s, %s", switch_on, country, metric)
+
     if not country and metric:
         raise PreventUpdate
 
@@ -328,6 +344,7 @@ def get_template(switch_on: bool) -> str:
     Input(dcc_metric_bar_graph_id, "hoverData"),
 )
 def update_line(hoverData) -> tuple[str, str, str, str, str]:
+    logger.debug("Update Line Callback Triggered with Hover Data: %s", hoverData)
 
     resort = hoverData["points"][0]["customdata"][0]
     df = resorts.query(f"Resort == '{resort}'")
@@ -370,6 +387,8 @@ def ping():
     """
     To enable health check
     """
+    logger.info("Ping received")
+
     data = {"status": "ok"}
     return data, 200
 

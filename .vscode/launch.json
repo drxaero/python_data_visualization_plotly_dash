@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: dev",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/app/",
+            "program": "./start-app",
+            "args": [],
+            "env": {
+                "ENV_STATE": "dev",
+                "TIMEZONE": "Asia/Taipei"
+            }
+        }
+    ]
+}

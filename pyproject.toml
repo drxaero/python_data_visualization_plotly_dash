@@ -11,6 +11,10 @@ dash = "^3.0.2"
 pandas = "^2.2.3"
 dash-bootstrap-templates = "^2.1.0"
 dash-bootstrap-components = "^2.0.0"
+pydantic-settings = "^2.6.0"
+
+# Manually pasted the output of `poetry run opentelemetry-bootstrap --action=requirements`
+rich = "^14.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"
