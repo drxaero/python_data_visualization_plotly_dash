@@ -1,11 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env sh
 
-from app1 import app1
-from logging_conf import configure_logging
-
-if __name__ == "__main__":
-    configure_logging()  # Configure logging before running the app
-
-    app1.run(
-        host="0.0.0.0", port=8091, debug=True
-    )  # 可以指定 `host="0.0.0.0"` 或 `port=8051` 或 `debug=True` 或 `height=800` 或 `width="80%"`
+export OTEL_SERVICE_NAME=janus-dashboard-app
+export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+opentelemetry-instrument flask --app app1:server run -h 0.0.0.0 -p 8091

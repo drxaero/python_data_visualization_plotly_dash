@@ -12,9 +12,25 @@ pandas = "^2.2.3"
 dash-bootstrap-templates = "^2.1.0"
 dash-bootstrap-components = "^2.0.0"
 pydantic-settings = "^2.6.0"
+rich = "^14.0.0"
+opentelemetry-distro = {extras = ["otlp"], version = "^0.55b1"}
+
 
 # Manually pasted the output of `poetry run opentelemetry-bootstrap --action=requirements`
-rich = "^14.0.0"
+opentelemetry-instrumentation-asyncio = "^0.55b1"
+opentelemetry-instrumentation-dbapi = "^0.55b1"
+opentelemetry-instrumentation-logging = "^0.55b1"
+opentelemetry-instrumentation-sqlite3 = "^0.55b1"
+opentelemetry-instrumentation-threading = "^0.55b1"
+opentelemetry-instrumentation-urllib = "^0.55b1"
+opentelemetry-instrumentation-wsgi = "^0.55b1"
+opentelemetry-instrumentation-click = "^0.55b1"
+opentelemetry-instrumentation-flask = "^0.55b1"
+opentelemetry-instrumentation-grpc = "^0.55b1"
+opentelemetry-instrumentation-jinja2 = "^0.55b1"
+opentelemetry-instrumentation-requests = "^0.55b1"
+opentelemetry-instrumentation-tortoiseorm = "^0.55b1"
+opentelemetry-instrumentation-urllib3 = "^0.55b1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"

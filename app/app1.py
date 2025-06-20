@@ -1,4 +1,5 @@
 import dash_bootstrap_components as dbc
+import flask
 import logging
 import numpy as np
 import pandas as pd
@@ -8,6 +9,7 @@ from dash.exceptions import PreventUpdate
 from dash_bootstrap_templates import load_figure_template
 from plotly.graph_objects import Figure
 
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"  # Provides class "dbc"
@@ -26,8 +28,11 @@ resorts = pd.read_csv("data/resorts.csv", encoding="ISO-8859-1").assign(
 )
 
 
+server = flask.Flask(__name__)
 app1 = Dash(
     __name__,
+    server=server,
+    url_base_pathname="/",
     external_stylesheets=[
         dbc_css,
         getattr(dbc.themes, dbc_light_theme.upper()),
