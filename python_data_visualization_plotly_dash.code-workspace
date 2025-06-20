@@ -15,7 +15,7 @@
 			120
 		],
 		"python.analysis.extraPaths": [
-			"./"
+			"./app/"
 		],
 		"autoDocstring.docstringFormat": "sphinx-notypes",
 		"python.envFile": "${workspaceFolder}/.vscode/python.env",
