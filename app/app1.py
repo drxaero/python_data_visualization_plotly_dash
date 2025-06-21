@@ -397,4 +397,6 @@ def ping():
 
 
 if __name__ == "__main__":
-    app1.run_server(debug=True)  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
+    app1.run(
+        host="0.0.0.0", port=8091, debug=True
+    )  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
