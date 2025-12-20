@@ -6,11 +6,6 @@
 	],
 	"settings": {
 		"files.eol": "\n",
-		"pylint.args": [
-			"--max-line-length=120",
-			"--disable=C2401,C2403,W2402",
-			"--additional-builtins=_",
-		],
 		"editor.rulers": [
 			120
 		],
@@ -35,33 +30,19 @@
 		"python.testing.pytestEnabled": true,
 
 		"files.insertFinalNewline": true,
-		"flake8.importStrategy": "fromEnvironment",
-		"flake8.args": [
-			// following https://github.com/psf/black/blob/main/docs/compatible_configs/flake8/.flake8
-			"--max-line-length=120",
-			"--builtins=_",
-			"--extend-ignore=E203, E701"
-		],
-		"isort.importStrategy": "fromEnvironment",
-		"isort.check": true,
-		"isort.args": [
-			"--line-length=120",
-			"--src=${workspaceFolder}"
-		],
-		"black-formatter.importStrategy": "fromEnvironment",
         "[python]": {
-        	"editor.defaultFormatter": "ms-python.black-formatter",
+        	"editor.defaultFormatter": "charliermarsh.ruff",
         	"editor.formatOnSave": true,
-			"editor.formatOnSaveMode": "file"
+            "editor.codeActionsOnSave": {
+              "source.fixAll": "explicit",
+              "source.organizeImports": "never"
+            },
         },
 		// Ensure the tabs are used instead of spaces
 		"[makefile]": {
 			"editor.insertSpaces": false,
 			"editor.detectIndentation": false
 		},
-		"black-formatter.args": [
-			"--line-length", "120"
-		],
 		"testing.coverageToolbarEnabled": true,
 
 		"folder-path-color.folders": [

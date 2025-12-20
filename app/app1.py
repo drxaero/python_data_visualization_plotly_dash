@@ -1,6 +1,7 @@
+import logging
+
 import dash_bootstrap_components as dbc
 import flask
-import logging
 import numpy as np
 import pandas as pd
 import plotly.express as px

@@ -1,10 +1,7 @@
 {
   "recommendations": [
     "ms-python.python",
-    "ms-python.pylint",
-    "ms-python.black-formatter",
-    "ms-python.flake8",
-    "ms-python.isort",
+    "charliermarsh.ruff",
     "ms-azuretools.vscode-docker",
     "zeshuaro.vscode-python-poetry",
     "ryanluker.vscode-coverage-gutters",

@@ -33,18 +33,32 @@ opentelemetry-instrumentation-urllib3 = "^0.55b1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"
-flake8 = "^7.1.1"
-black = "^25.1.0"
-isort = "^6.0.1"
+ruff = "^0.14.3"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-# follows https://github.com/psf/black/blob/main/docs/compatible_configs/isort/pyproject.toml
-[tool.isort]
-profile = 'black'
+[tool.ruff]  # https://docs.astral.sh/ruff/settings/#top-level
+line-length = 120
+exclude = ["**/migrations/", "**/manage.py"]
+target-version = "py312"
+
+[tool.ruff.lint]  # https://docs.astral.sh/ruff/settings/#lint
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E402",  # module level import not at top of file
+]
+
+[tool.ruff.format]  # https://docs.astral.sh/ruff/settings/#format
+quote-style = "double"  # Quote style: double quotes is default, explicitly stated here for clarity
 
 [tool.poetry-auto-export]
 output = "requirements.txt"
