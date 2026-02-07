@@ -2,7 +2,7 @@
 name = "python-data-visualization-plotly-dash"
 version = "0.1.0"
 description = ""
-authors = ["Janus Cheng <drxaero@gmail.com>"]
+authors = ["Janus Cheng <janus.cheng@live.com>"]
 readme = "README.md"
 package-mode = false
 
