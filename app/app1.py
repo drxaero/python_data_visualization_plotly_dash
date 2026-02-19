@@ -142,16 +142,19 @@ app1.layout = dbc.Container(
                                                         id=dcc_summer_ski_checklist_id,
                                                         options=[{"label": "Has Summer Skiing", "value": "Yes"}],
                                                         value=[],
+                                                        className=dbc_class,
                                                     ),
                                                     dcc.Checklist(
                                                         id=dcc_night_ski_checklist_id,
                                                         options=[{"label": "Has Night Skiing", "value": "Yes"}],
                                                         value=[],
+                                                        className=dbc_class,
                                                     ),
                                                     dcc.Checklist(
                                                         id=dcc_snow_park_checklist_id,
                                                         options=[{"label": "Has Snow Park", "value": "Yes"}],
                                                         value=[],
+                                                        className=dbc_class,
                                                     ),
                                                 ]
                                             ),
@@ -213,7 +216,7 @@ app1.layout = dbc.Container(
                                             html.Div("Resort Report Card"),
                                             dbc.Card(
                                                 id=dbc_resort_name_card_id,
-                                                style={"texAlign": "center", "fontSize": 20},
+                                                style={"textAlign": "center", "fontSize": 20},
                                             ),
                                             dbc.Row(
                                                 [
@@ -249,6 +252,10 @@ app1.layout = dbc.Container(
 )
 
 
+def get_template(switch_on: bool) -> str:
+    return dbc_light_theme if switch_on else dbc_dark_theme
+
+
 @callback(
     Output(nav_bar_id, "color"),
     Output(html_map_title_id, "children"),
@@ -259,7 +266,7 @@ app1.layout = dbc.Container(
     Input(dcc_night_ski_checklist_id, "value"),
     Input(dcc_snow_park_checklist_id, "value"),
 )
-def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> tuple[str, Figure]:
+def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_park: str) -> tuple[str, str, Figure]:
     logger.debug(
         "Snow Map Callback Triggered with Inputs: %s, %s, %s, %s, %s",
         switch_on,
@@ -309,7 +316,7 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
 def country_select(continent: str) -> list[str]:
     logger.debug("Country Select Callback Triggered with Continent: %s", continent)
 
-    return np.sort(resorts.query(f"Continent == '{continent}'")["Country"].unique())
+    return np.sort(resorts.query("Continent == @continent")["Country"].unique())
 
 
 @callback(
@@ -322,7 +329,7 @@ def country_select(continent: str) -> list[str]:
 def plot_bar(switch_on: bool, country: str, metric: str) -> tuple[str, Figure]:
     logger.debug("Plot Bar Callback Triggered with Inputs: %s, %s, %s", switch_on, country, metric)
 
-    if not country and metric:
+    if not country or not metric:
         raise PreventUpdate
 
     title = f"Top Resort Metrics in {country} by {metric}"
@@ -335,10 +342,6 @@ def plot_bar(switch_on: bool, country: str, metric: str) -> tuple[str, Figure]:
     )
 
     return title, fig
-
-
-def get_template(switch_on: bool) -> str:
-    return dbc_light_theme if switch_on else dbc_dark_theme
 
 
 @callback(
@@ -355,7 +358,7 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
     resort = hoverData["points"][0]["customdata"][0]
     df = resorts.query(f"Resort == '{resort}'")
 
-    resort_name = df["Resort"]
+    resort_name = df["Resort"].iloc[0]
 
     elev_rank = f"Elevation Rank: {int(df['country_elevation_rank'].iloc[0])}"
     price_rank = f"Price Rank: {int(df['country_price_rank'].iloc[0])}"
@@ -367,8 +370,8 @@ def update_line(hoverData) -> tuple[str, str, str, str, str]:
 
 @callback(
     Output(nav_bar_collapse_id, "is_open"),
-    [Input(nav_bar_toggler_id, "n_clicks")],
-    [State(nav_bar_collapse_id, "is_open")],
+    Input(nav_bar_toggler_id, "n_clicks"),
+    State(nav_bar_collapse_id, "is_open"),
 )
 def toggle_navbar_collapse(n: int, is_open: bool) -> bool:
     if n:
@@ -398,6 +401,4 @@ def ping():
 
 
 if __name__ == "__main__":
-    app1.run(
-        host="0.0.0.0", port=8091, debug=True
-    )  # `host="0.0.0.0"` or `port=8051` or `debug=True` or `height=800` or `width="80%"`
+    app1.run(host="0.0.0.0", port=8091, debug=True)
