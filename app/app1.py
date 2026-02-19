@@ -2,7 +2,6 @@ import logging
 
 import dash_bootstrap_components as dbc
 import flask
-import numpy as np
 import pandas as pd
 import plotly.express as px
 from dash import Dash, Input, Output, State, callback, clientside_callback, dcc, html
@@ -186,6 +185,9 @@ app1.layout = dbc.Container(
                                             html.Div("Select A Country:"),
                                             dcc.Dropdown(
                                                 id=dcc_country_dropdown_id,
+                                                options=sorted(
+                                                    resorts.query("Continent == 'Europe'")["Country"].unique().tolist()
+                                                ),
                                                 value="Norway",
                                                 className=dbc_class,
                                             ),
@@ -312,11 +314,17 @@ def snow_map(switch_on: bool, price: int, summer_ski: str, night_ski: str, snow_
     return color, title, fig
 
 
-@callback(Output(dcc_country_dropdown_id, "options"), Input(dcc_continent_dropdown_id, "value"))
-def country_select(continent: str) -> list[str]:
+@callback(
+    Output(dcc_country_dropdown_id, "options"),
+    Output(dcc_country_dropdown_id, "value"),
+    Input(dcc_continent_dropdown_id, "value"),
+    prevent_initial_call=True,
+)
+def country_select(continent: str) -> tuple[list[str], str]:
     logger.debug("Country Select Callback Triggered with Continent: %s", continent)
 
-    return np.sort(resorts.query("Continent == @continent")["Country"].unique())
+    countries = sorted(resorts.query("Continent == @continent")["Country"].unique().tolist())
+    return countries, countries[0]
 
 
 @callback(
